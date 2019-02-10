@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Statistics</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="font/awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body align='center'>
+		<p style='color: #F32C52; font-size:20px; font-weight: bold;'><i class="fa fa-calendar" aria-hidden="true"></i> Date</p>
+		<input type='date' name='date' id="date_picker" required><br>
+		<button type='button' id='createReport' class='button -salmon'><i class="fa fa-cube" aria-hidden="true"></i> Go</button>
+		
+		<div id='mainDiv'>
+			<hr>
+			<div id='headDiv'><img src='img/loading.gif' id='loading' class='offDisplay'><button type='button' id='printStat' class='button -green offDisplay'><i class="fa fa-print" aria-hidden="true"></i> Print</button></div>
+			<p><label class='mood'>Great mood</label><br>Answers = <label id='totalAns_great'>__</label></p>
+			<table id="tbodygreat">
+				
+				
+			</table>
+			<hr>
+			<p><label class='mood'>Poorly mood</label><br>Answers = <label id='totalAns_poorly'>__</label></p>
+			<table id="tbodypoorly">
+				
+			</table>
+		</div>
+		
+		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+		<script src="js/firebase_init.js"></script>
+		<script>
+			var dateStamp = '';
+			$("#createReport").on('click', function() {
+				$('#printStat').hide();
+				$('#loading').show();
+				var date = $('#date_picker').val();
+				var arr = date.split('-');
+				
+				dateStamp = arr.join('');
+				
+				console.log(document.getElementById('mainDiv').innerHTML);
+				init();
+			});
+			
+			$('#printStat').on('click', function() {
+				$('#printStat').hide();
+				var table_style='<style>table, td, th {    border: 1px solid #ddd;text-align: left;margin: 0 auto;}table {border-collapse: collapse;width: 80%;}td {text-align: left;width: 400px;padding: 10px;}.mood {font-weight: bold;font-size: 20px;}.centerText {text-align: center;}</style>';
+				
+				var html="<html><head>";
+				html += table_style + "</head><body align='center'>";
+			   html+= document.getElementById('mainDiv').innerHTML + "</body>";
+
+			   html+="</html>";
+			   $('#printStat').show();
+
+			   var printWin = window.open('','','left=0,top=0');
+			   printWin.document.write(html);
+			   printWin.document.close();
+			   printWin.focus();
+			   printWin.print();
+			   printWin.close();
+			});
+		</script>
+		<script src="js/stat_1.js"></script>
+	</body>
+</html>
