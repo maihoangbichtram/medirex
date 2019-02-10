@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Main Page</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href='css/style.css'>
+	</head>
+	<body align='center'>
+		<div>
+			<img src="img/Kokkola_old_town.jpg" class="mainImg mainDiv">
+			<div class="circle" id="percent"><label id="avgScore"><span class="count">100</span></label>%</div>
+			<div class="status">People of Kokkola are doing <label id="moodStatus">________</label>!</div>
+		</div>
+		<p class="greyText alignLeft">Answer in total: <label id="totalAnswer"><span class="count_2"></span></label></p>
+		
+		<br><p><span class="purpleText"><label id="avgScore_1"><span class="count">100</span></label>% told today is a</span><br><span class="greenText"><label id="dayStatus">______</label> work day!<span></p>
+		
+		<p><span class="purpleText">Best thing(s) today<span><br><span class="greenText"><label id="bestOption">_____________</label><span></p>
+		
+		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+		<script>
+			var now = new Date();
+
+			var date = [ now.getFullYear(), now.getMonth() + 1, now.getDate()];
+
+			for ( var i = 1; i < 3; i++ ) {
+				if ( date[i] < 10 ) {
+					date[i] = "0" + date[i];
+				}
+			}
+			
+			var dateStamp = date.join("");
+		</script>
+		<script src="js/firebase_init.js"></script>
+		<script src="js/firebase_ref.js"></script>
+		<script src="js/getAvgScore.js"></script>
+		<script src="js/getBestOption.js"></script>
+		<script>
+			$(document).ready(function() {
+				//if($('#avgScore').text() == '') {
+				$('.count').each(function () {
+					$(this).prop('Counter',0).animate({
+						Counter: $(this).text()
+					}, {
+						duration: 4000,
+						easing: 'swing',
+						step: function (now) {
+							$(this).text(Math.ceil(now));
+						}
+					});
+				});
+				
+				$('.count_2').each(function () {
+					$(this).prop('Counter',0).animate({
+						Counter: 50
+					}, {
+						duration: 4000,
+						easing: 'swing',
+						step: function (now) {
+							if(Math.ceil(now) == 50)
+								$(this).html(0);
+							else
+								$(this).text(Math.ceil(now));
+						}
+					});
+				});
+				
+				//}
+			});
+		</script>
+	</body>
+</html>
